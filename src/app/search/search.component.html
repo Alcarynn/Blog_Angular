@@ -1,0 +1,19 @@
+<form class="example-form"> 
+    <mat-form-field class="example-full-width">
+      <input 
+        matInput 
+			placeholder="Search a user..."
+        [formControl]="myControl"       
+        [matAutocomplete]="auto"
+      (keyup.enter)="enter()"
+    >
+  
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">   
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" 
+        (onSelectionChange)="selectedOption(option)">
+         {{option.firstname}} {{option.lastname}}
+      </mat-option>
+    </mat-autocomplete>
+    </mat-form-field>  
+  </form>
+

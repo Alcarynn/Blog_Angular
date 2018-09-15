@@ -1,0 +1,15 @@
+<form>
+  <input [(ngModel)]="user.email" placeholder="Login..." name="mail"/>
+  <input [(ngModel)]="user.password" placeholder="Password..." name="mdp"/>  
+  <div *ngIf="isNew">
+    <input  [(ngModel)]="user.firstname" placeholder="First name..." name="mdp"/> 
+    <input [(ngModel)]="user.lastname" placeholder="Last name..." name="mdp"/> 
+    <button mat-fab (click)="register()">Register</button>
+    <button mat-fab (click)="goBack()">Go back</button>
+  </div>
+</form>
+<div *ngIf="!isNew">
+  <button mat-fab  (click)="login()">Sign in</button> 
+  <button mat-fab  (click)="new()">New user</button>
+</div>
+

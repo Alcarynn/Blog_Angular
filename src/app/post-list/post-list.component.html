@@ -1,0 +1,29 @@
+ <mat-card *ngIf="isComments">
+        <mat-card-title>{{parent.user.firstname}} {{parent.user.lastname}}</mat-card-title>
+        <mat-card-subtitle>{{parent.date}}</mat-card-subtitle>
+        <mat-card-content>
+             {{parent.text}} 
+        </mat-card-content>
+        <a routerLink="/addmessage/{{parent.id}}">
+            <button mat-raised-button> Add comment</button> 
+    </a>
+   </mat-card>
+<ul class="post">
+    <li *ngFor="let post of posts">  
+        <div *ngIf="post.id">
+              
+        <mat-card>
+            <mat-card-title>{{post.user.firstname}} {{post.user.lastname}}</mat-card-title>
+            <mat-card-subtitle>{{post.date}}</mat-card-subtitle>
+            <mat-card-content>
+                 {{post.text}} 
+            </mat-card-content>
+
+       </mat-card>
+        <button mat-fab class="delete" title="delete"(click)="delete(post)">X</button>
+        <button mat-fab class="like" title="like"(click)="like(post)">{{post.likes}}!</button>       
+        <a routerLink="/wall/{{post.id}}">Comments</a>
+  </div>
+
+    </li>
+  </ul>

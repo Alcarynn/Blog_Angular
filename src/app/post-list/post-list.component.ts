@@ -1,0 +1,82 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { PostService } from '../_services/post.service';
+import { UserService } from '../_services/user.service';
+import { Post, User } from '../classes';
+import { SharedService } from '../_services/shared.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({
+  selector: 'app-post-list',
+  templateUrl: './post-list.component.html',
+  styleUrls: ['./post-list.component.css']
+})
+export class PostListComponent implements OnInit {
+
+  likedPost: Post;
+  posts: Post[];
+  parent: Post;
+  isComments: boolean;
+  
+  constructor(
+    private postService: PostService, 
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private sharedService: SharedService,
+    private router: Router) {  
+      this.router.routeReuseStrategy.shouldReuseRoute = function() {
+        return false;
+    };
+  }
+
+  ngOnInit() {
+      this.parent = new Post();
+      var postid =+this.route.snapshot.paramMap.get('postid');   
+      this.parent.id = postid;
+      console.log(postid);   
+      if(postid === 0){    
+        this.isComments = false;    
+        this.getMyWall();   
+    }
+    else{
+      this.isComments = true;
+      this.postService.read(postid).subscribe(data => this.parent = data);
+      this.postService.getComments(postid).subscribe(data => this.posts = data);
+    }
+  }
+
+  delete(post: Post){
+    this.postService.delete(post.id).subscribe(data =>{this.ngOnInit()});
+    
+  }
+
+  like(post: Post){
+    this.postService.read(post.id).subscribe(data => {
+    this.likedPost = data;
+    this.likedPost.likes += 1;
+    this.postService.update(this.likedPost).subscribe(data =>{this.ngOnInit()});
+  });
+  }
+
+
+
+  getMyPage(id: number){	
+    this.userService.getMyPage(id).subscribe(data => this.posts = data);    
+  
+  }
+  
+   getMyWall(){	
+    var userid = this.sharedService.getUser().id;
+    this.userService.getMyPage(userid).subscribe(data1 => {
+		this.posts = data1;		
+		for(let friend of this.sharedService.getUser().friends){		
+			this.userService.getMyPage(friend.id).subscribe(data2 => {
+				for(let post of data2){
+					this.posts.push(post);
+				}
+			});   
+		}
+	});    
+  
+  }
+
+}

@@ -1,0 +1,26 @@
+
+<app-login *ngIf="!isLogged" (childForm)="constructor(sharedService)"></app-login>
+<div *ngIf="isLogged">
+        <mat-sidenav-container>
+                <mat-sidenav class="menu" opened mode="side" position="end">                  
+                        <h1>{{user.firstname}} {{user.lastname}}</h1>
+                        <a routerLink="/userinfo/{{user.id}}">
+                                <button mat-raised-button>User info</button>
+                        </a>
+                        <a routerLink="/wall/0">
+                                <button mat-raised-button>Friends posts</button>
+                        </a>
+                        <a routerLink="/addmessage/0">
+                                <button mat-raised-button> Add post</button> 
+                        </a>
+                        <button mat-fab  (click)="delogin()">Sign out</button>    
+                        <a routerLink="/searchusers">Search users</a>   
+          
+                </mat-sidenav> 
+                <mat-sidenav-content>   
+                                {{user | json}}
+                                {{post | json}}                    
+                                <router-outlet></router-outlet>
+                </mat-sidenav-content>
+        </mat-sidenav-container>        
+</div>
