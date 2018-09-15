@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {MaterialModule} from '../material/material.module';
 
 import { User } from '../classes';
 import { UserService } from '../_services/user.service';
-import { SharedService } from '../_services/shared.service';
 import { LoginService } from '../_services/login.service';
+import { UserCrudService } from '../_services/user-crud.service';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +21,8 @@ export class LoginComponent implements OnInit {
   @Output() childForm = new EventEmitter();
 
   constructor(
-    private userService: UserService,
-    private loginService: LoginService,
-    private sharedService: SharedService) {
+    private userCrudService: UserCrudService,
+    private loginService: LoginService) {
    }
 
   ngOnInit() {
@@ -37,8 +36,7 @@ export class LoginComponent implements OnInit {
         this.result = "Wrong login or password";
       }
       else{
-        this.sharedService.setIsLogged(true);  
-        this.sharedService.setUser(user);
+        localStorage.setItem('local_user', JSON.stringify(user));
         this.childForm.emit();
       }
     });
@@ -53,8 +51,8 @@ export class LoginComponent implements OnInit {
   }
 
   register(): void{
-    this.userService.create(this.user).subscribe(user => {
-      this.sharedService.setUser(user);
+    this.userCrudService.create(this.user).subscribe(user => {
+      localStorage.setItem('local_user', JSON.stringify(user));
       this.childForm.emit();
     });
   }

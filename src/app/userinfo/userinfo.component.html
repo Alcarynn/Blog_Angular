@@ -3,7 +3,7 @@
 </h1>
 <h2>Friends:</h2>
  <li *ngFor="let friend of user.friends">         
-                    {{friend.firstname}} {{friend.lastname}}             
-               
+                    {{friend.firstname}} {{friend.lastname}}   
     </li>
+<button mat-fab (click)="addFriend()">Add a friend</button>
 

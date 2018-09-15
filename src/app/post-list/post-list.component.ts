@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PostService } from '../_services/post.service';
 import { UserService } from '../_services/user.service';
 import { Post, User } from '../classes';
-import { SharedService } from '../_services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -21,7 +20,6 @@ export class PostListComponent implements OnInit {
     private postService: PostService, 
     private route: ActivatedRoute,
     private userService: UserService,
-    private sharedService: SharedService,
     private router: Router) {  
       this.router.routeReuseStrategy.shouldReuseRoute = function() {
         return false;
@@ -31,8 +29,7 @@ export class PostListComponent implements OnInit {
   ngOnInit() {
       this.parent = new Post();
       var postid =+this.route.snapshot.paramMap.get('postid');   
-      this.parent.id = postid;
-      console.log(postid);   
+      this.parent.id = postid;  
       if(postid === 0){    
         this.isComments = false;    
         this.getMyWall();   
@@ -65,17 +62,8 @@ export class PostListComponent implements OnInit {
   }
   
    getMyWall(){	
-    var userid = this.sharedService.getUser().id;
-    this.userService.getMyPage(userid).subscribe(data1 => {
-		this.posts = data1;		
-		for(let friend of this.sharedService.getUser().friends){		
-			this.userService.getMyPage(friend.id).subscribe(data2 => {
-				for(let post of data2){
-					this.posts.push(post);
-				}
-			});   
-		}
-	});    
+    var user: User =  JSON.parse(localStorage.getItem('local_user'));
+    this.userService.getMyWall(user.id).subscribe(data => this.posts = data);    
   
   }
 

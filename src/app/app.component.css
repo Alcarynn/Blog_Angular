@@ -3,19 +3,21 @@ mat-sidenav-content {
     height: 100em;
 }
 
-.menu{
+mat-sidenav{
+  width: 10em;
     background-color: gold;
     display: flex;
-    flex-direction: column  !important;
-    width: 20 em;
+    flex-direction: column;    
+    align-items: center;
     position: absolute;
     top: 0;
 }
-.menu a{
-  width: 20 em;
-}
-.menu button{
-  width: 20 em;
+
+mat-sidenav button{
+  width: 10em !important;
+  margin-left: auto;
+  margin-right: auto;
+  
 }
 
 /* AppComponent's private CSS styles */

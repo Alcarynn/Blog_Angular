@@ -4,7 +4,8 @@ import { FormControl } from '@angular/forms';
 import { User } from '../classes';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { SharedService } from '../_services/shared.service';
+import { UserCrudService } from '../_services/user-crud.service';
+
 
 @Component({
   selector: 'app-search',
@@ -21,11 +22,10 @@ export class SearchComponent implements OnInit {
 
 
   constructor(
-    private userService: UserService,
-    private sharedService: SharedService) { }
+    private userCrudService: UserCrudService) { }
 
   ngOnInit(): void {
-    this.user = this.sharedService.getUser();
+    this.user = JSON.parse(localStorage.getItem('local_user'))
     this.getOptions();
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
   }
   
   getOptions(): void {
-    this.userService.readAll().subscribe(options => this.options = options);
+    this.userCrudService.readAll().subscribe(options => this.options = options);
   }
 
   private _filter(name: string): User[]{
@@ -48,10 +48,5 @@ export class SearchComponent implements OnInit {
     return results;
   }
 
-  selectedOption(option: User){
-		this.user.friends.push(option);
-		this.userService.update(this.user).subscribe();
-	
-  }
 
 }

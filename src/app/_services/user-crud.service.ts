@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CrudService } from '../_services/crud.service';
-import { Post } from '../classes';
+import { User } from '../classes';
 
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class PostService extends CrudService<Post> {
-
+export class UserCrudService extends CrudService<User> {
+   
   constructor(httpClient: HttpClient) 
-		{ 
-		  super(httpClient, `post`);
-		}
+  { 
+    super(httpClient,  `user`);
+  }
 }

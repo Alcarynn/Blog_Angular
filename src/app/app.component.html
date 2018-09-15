@@ -13,13 +13,13 @@
                         <a routerLink="/addmessage/0">
                                 <button mat-raised-button> Add post</button> 
                         </a>
+                        <a routerLink="/searchusers">
+                                <button mat-raised-button>  Search users</button> 
+                        </a> 
                         <button mat-fab  (click)="delogin()">Sign out</button>    
-                        <a routerLink="/searchusers">Search users</a>   
           
                 </mat-sidenav> 
-                <mat-sidenav-content>   
-                                {{user | json}}
-                                {{post | json}}                    
+                <mat-sidenav-content>                                                
                                 <router-outlet></router-outlet>
                 </mat-sidenav-content>
         </mat-sidenav-container>        

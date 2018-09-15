@@ -1,18 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { CrudService } from './crud.service';
-import { MessageService } from "./message.service";
-import { User } from '../classes';
+
+import { User, Post } from '../classes';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends CrudService<User> {
+export class UserService {
 
-  constructor(httpClient: HttpClient, messageService: MessageService) 
+  private startpoint = environment.appUrl + '/user'
+
+  constructor(private httpClient: HttpClient) 
 		{ 
-		  super(httpClient, messageService, `user`);
 		}
+
+		public getMyPage(id: number): Observable<Post[]> {
+      return this.httpClient.get<any[]>(`${this.startpoint}/${id}/mypage`);
+    }
+
+    public getMyWall(id: number): Observable<Post[]> {
+      return this.httpClient.get<any[]>(`${this.startpoint}/${id}/mywall`);
+    }
+
+    public getFriends(id: number): Observable<User[]> {
+      return this.httpClient.get<any[]>(`${this.startpoint}/${id}/friendlist`);
+    }
+
+    public addFriend(id: number, friend: User){
+      return this.httpClient.put(`${this.startpoint}/${id}`, friend);
+    }
 }

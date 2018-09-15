@@ -13,7 +13,6 @@ import {MaterialModule} from './material/material.module';
 import { SearchComponent } from './search/search.component';
 import { AddpostComponent } from './addpost/addpost.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SharedService } from './_services/shared.service';
 import { UserinfoComponent } from './userinfo/userinfo.component';
 
 
@@ -38,7 +37,7 @@ import { UserinfoComponent } from './userinfo/userinfo.component';
     AppRoutingModule,
     StorageServiceModule
   ],
-  providers: [SharedService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

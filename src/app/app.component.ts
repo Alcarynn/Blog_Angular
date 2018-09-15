@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import {MaterialModule} from './material/material.module';
 import {User} from './classes'
-import { SharedService } from './_services/shared.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,16 +12,18 @@ import { SharedService } from './_services/shared.service';
 export class AppComponent {
   title = 'Facegram';
   user : User;
-  isLogged: boolean;
+  isLogged: boolean = false;
 
-  constructor(private sharedService: SharedService){
-    this.isLogged=this.sharedService.getIsLogged();
-    this.user=this.sharedService.getUser();
+  constructor(){
+    if(JSON.parse(localStorage.getItem('local_user')) !== null){
+      this.isLogged=true;
+      this.user=JSON.parse(localStorage.getItem('local_user'));
+    }
   };
 
   delogin(){
-    this.sharedService.setIsLogged(false);
-    this.user = new User();
+    localStorage.removeItem('local_user');
+    this.isLogged = false;
   }
 
 }

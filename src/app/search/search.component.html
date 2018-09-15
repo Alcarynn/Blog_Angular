@@ -9,9 +9,10 @@
     >
   
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">   
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" 
-        (onSelectionChange)="selectedOption(option)">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        <a routerLink="/userinfo/{{option.id}}">
          {{option.firstname}} {{option.lastname}}
+        </a>
       </mat-option>
     </mat-autocomplete>
     </mat-form-field>  
